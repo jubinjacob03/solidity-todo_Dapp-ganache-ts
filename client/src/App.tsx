@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import getWeb3 from './web3';
-import Voting from './Voting';
+import { web3, instance } from './web3';
 
 const App: React.FC = () => {
-  const [web3, setWeb3] = useState<any>(null);
   const [accounts, setAccounts] = useState<string[]>([]);
   const [candidates, setCandidates] = useState<string[]>([]);
   const [votes, setVotes] = useState<{ [key: string]: number }>({});
@@ -11,32 +9,46 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const init = async () => {
-      const web3 = await getWeb3();
-      setWeb3(web3);
-      const accounts = await web3.eth.getAccounts();
-      setAccounts(accounts);
+      try {
+        if (!web3) {
+          throw new Error('Web3 instance not initialized.');
+        }
 
-      const candidateList = await Voting.methods.candidateList().call();
-      setCandidates(candidateList);
+        const accounts = await web3.eth.getAccounts();
+        setAccounts(accounts);
 
-      const votesData: { [key: string]: number } = {};
-      for (let candidate of candidateList) {
-        const voteCount = await Voting.methods.totalVotesFor(candidate).call();
-        votesData[candidate] = parseInt(voteCount);
+        const candidateList = await instance.methods.candidateList().call();
+        setCandidates(candidateList);
+
+        const votesData: { [key: string]: number } = {};
+        for (let candidate of candidateList) {
+          const voteCount = await instance.methods.totalVotesFor(candidate).call();
+          votesData[candidate] = parseInt(voteCount);
+        }
+        setVotes(votesData);
+      } catch (error) {
+        console.error('Error initializing web3:', error);
       }
-      setVotes(votesData);
     };
 
     init();
   }, []);
 
   const handleVote = async () => {
-    await Voting.methods.voteForCandidate(newVote).send({ from: accounts[0] });
-    const voteCount = await Voting.methods.totalVotesFor(newVote).call();
-    setVotes({
-      ...votes,
-      [newVote]: parseInt(voteCount)
-    });
+    try {
+      if (!web3) {
+        throw new Error('Web3 instance not initialized.');
+      }
+
+      await instance.methods.voteForCandidate(newVote).send({ from: accounts[0] });
+      const voteCount = await instance.methods.totalVotesFor(newVote).call();
+      setVotes({
+        ...votes,
+        [newVote]: parseInt(voteCount)
+      });
+    } catch (error) {
+      console.error('Error handling vote:', error);
+    }
   };
 
   return (
