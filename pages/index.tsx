@@ -1,18 +1,29 @@
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import { VStack, HStack, Heading, Text, Button, Input, Box, Spacer, Spinner, useToast } from '@chakra-ui/react';
-import React from 'react';
-import { load } from '../src/funcs';
+import { NextPage } from "next";
+import Head from "next/head";
+import {
+  VStack,
+  HStack,
+  Heading,
+  Text,
+  Button,
+  Input,
+  Box,
+  Spacer,
+  Spinner,
+  useToast,
+} from "@chakra-ui/react";
+import { motion } from "framer-motion";
+import React from "react";
+import { load } from "../src/funcs";
 
 const Home: NextPage = () => {
-  const [input, setInput] = React.useState<string>('');
+  const [input, setInput] = React.useState<string>("");
   const [refresh, setRefresh] = React.useState<boolean>(true);
   const [addressAccount, setAddressAccount] = React.useState<any>(null);
   const [contract, setContract] = React.useState<any>(null);
   const [tasks, setTasks] = React.useState<any[]>([]);
   const toast = useToast();
 
-  // Handlers
   const handleInputChange = (e: any) => setInput(e.currentTarget.value);
 
   const handleAddTask = async () => {
@@ -26,7 +37,7 @@ const Home: NextPage = () => {
       return;
     }
     await contract.createTask(input, { from: addressAccount });
-    setInput('');
+    setInput("");
     setRefresh(true);
   };
 
@@ -35,7 +46,6 @@ const Home: NextPage = () => {
     setRefresh(true);
   };
 
-  // React useEffect
   React.useEffect(() => {
     if (!refresh) return;
     setRefresh(false);
@@ -47,70 +57,156 @@ const Home: NextPage = () => {
   });
 
   return (
-    <VStack minH="100vh" justifyContent="center" alignItems="center" bg="gray.50" p={4} >
+    <VStack
+      minH="100vh"
+      justifyContent="center"
+      alignItems="center"
+      bg="gray.50"
+      p={4}
+      style={{
+        backgroundImage: "url(/background.jpg)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <Head>
         <title>Todo List</title>
         <meta name="description" content="Blockchain TodoList." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <VStack spacing={8} w="full" maxW="lg" bg="whiteAlpha.400" p={8} borderRadius="lg" boxShadow="md">
-        <Heading as="h1" size="xl" mb={4} color="teal.600">
-          Blockchain TodoList
-        </Heading>
-        <HStack w="full">
-          <Input
-            type="text"
-            size="md"
-            placeholder="New Task..."
-            onChange={handleInputChange}
-            value={input}
-            bg="gray.100"
-          />
-          <Button onClick={handleAddTask} colorScheme="teal">
-            ADD
-          </Button>
-        </HStack>
-        <Box w="full">
-          <Heading as="h2" size="md" mb={2} color="teal.500">
-            To-Do
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <VStack
+          spacing={8}
+          w="full"
+          maxW="xl"
+          bg="whiteAlpha.200"
+          p={12}
+          borderRadius="2xl"
+          boxShadow="md"
+        >
+          <Heading as="h1" size="xl" mb={4} color="gray.200">
+            TODO APP
           </Heading>
-          {tasks == null ? (
-            <Spinner />
-          ) : (
-            tasks.map((task, idx) =>
-              !task[2] ? (
-                <HStack key={idx} w="full" p={2} bg="gray.100" borderRadius="md" mb={2}>
-                  <Text>{task[1]}</Text>
-                  <Spacer />
-                  <Button size="sm" colorScheme="green" onClick={() => handleToggled(task[0].toNumber())}>
-                    DONE
-                  </Button>
-                </HStack>
-              ) : null
-            )
-          )}
-        </Box>
-        <Box w="full">
-          <Heading as="h2" size="md" mb={2} color="teal.500">
-            Tasks Done
-          </Heading>
-          {tasks == null ? (
-            <Spinner />
-          ) : (
-            tasks.map((task, idx) =>
-              task[2] ? (
-                <HStack key={idx} w="full" p={2} bg="gray.100" borderRadius="md" mb={2}>
-                  <Text>{task[1]}</Text>
-                  <Spacer />
-                  <Button size="sm" colorScheme="red" onClick={() => handleToggled(task[0].toNumber())}>
-                    UNDONE
-                  </Button>
-                </HStack>
-              ) : null
-            )
-          )}
-        </Box>
-      </VStack>
+          <HStack w="full">
+            <Input
+              type="text"
+              size="md"
+              placeholder="New Task..."
+              onChange={handleInputChange}
+              value={input}
+              bg="gray.100"
+              borderRadius={18}
+              focusBorderColor="transparent"
+            />
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <Button
+                onClick={handleAddTask}
+                colorScheme="purple"
+                borderRadius={12}
+                _focus={{ boxShadow: "none" }}
+              >
+                ADD
+              </Button>
+            </motion.div>
+          </HStack>
+          <Box w="full">
+            <Heading as="h2" size="md" mb={2} color="gray.200">
+              TODO
+            </Heading>
+            {tasks == null ? (
+              <Spinner />
+            ) : (
+              tasks.map((task, idx) =>
+                !task[2] ? (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <HStack
+                      w="full"
+                      py={2}
+                      px={4}
+                      bg="gray.100"
+                      borderRadius={22}
+                      mb={2}
+                    >
+                      <Text>{task[1]}</Text>
+                      <Spacer />
+                      <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          colorScheme="green"
+                          onClick={() => handleToggled(task[0].toNumber())}
+                          borderRadius={18}
+                          _focus={{ boxShadow: "none" }}
+                        >
+                          DONE
+                        </Button>
+                      </motion.div>
+                    </HStack>
+                  </motion.div>
+                ) : null
+              )
+            )}
+          </Box>
+          <Box w="full">
+            <Heading as="h2" size="md" mb={2} color="gray.200">
+              COMPLETED
+            </Heading>
+            {tasks == null ? (
+              <Spinner />
+            ) : (
+              tasks.map((task, idx) =>
+                task[2] ? (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <HStack
+                      w="full"
+                      py={2}
+                      px={4}
+                      bg="gray.100"
+                      borderRadius={22}
+                      mb={2}
+                    >
+                      <Text>{task[1]}</Text>
+                      <Spacer />
+                      <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          colorScheme="red"
+                          onClick={() => handleToggled(task[0].toNumber())}
+                          borderRadius={18}
+                          _focus={{ boxShadow: "none" }}
+                        >
+                          UNDO
+                        </Button>
+                      </motion.div>
+                    </HStack>
+                  </motion.div>
+                ) : null
+              )
+            )}
+          </Box>
+        </VStack>
+      </motion.div>
     </VStack>
   );
 };
