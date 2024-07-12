@@ -1,6 +1,6 @@
 # Todo App Blockchain Project
 
-This project implements a Todo list application using blockchain technology, integrating smart contracts with a frontend built using Next.js and Chakra UI.
+This project implements a Todo list application using blockchain technology with Ethereum, integrating Solidity smart contracts with a frontend built using Next.js and Chakra UI. Development and testing are conducted locally using Ganache as the personal blockchain (Free of Cost) .
 
 ## Technologies Used
 
@@ -25,15 +25,19 @@ This project implements a Todo list application using blockchain technology, int
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd <project-directory>
+   git clone https://github.com/jubinjacob03/solidity-todo_Dapp-ganache-ts
+   cd solidity-todo_Dapp-ganache-ts
    ```
 2. Install dependencies
    ```bash
    npm install
    ```
 3. Install and Start Ganache for local blockchain development.
-4. Compile and migrate smart contracts to serve under Ganache
+---
+>[!IMPORTANT]
+>When configuring **Ganache**, ensure it is running on port **7545**, which is the default RPC port used in the `truffle-config.js`. If you intend to use a different custom port, update the `truffle-config.js` accordingly to reflect the custom port ID.
+---
+4. Compile and migrate smart contracts to serve under Ganache:
    ```bash
    truffle compile
    truffle migrate --reset --network ganache
@@ -47,6 +51,19 @@ This project implements a Todo list application using blockchain technology, int
  - Add new tasks by typing in the input field and clicking the <em><strong>ADD</strong></em> button.
  - Click <em><strong>DONE</strong></em> or <em><strong>UNDO</strong></em> to toggle task completion status.
  - Ensure <em><strong>MetaMask (or other Ethereum wallet)</strong></em> is connected to interact with the blockchain features.
+
+## Setting Up MetaMask for Ganache
+
+1. Open MetaMask and click on the network dropdown (it usually shows "Main Ethereum Network").
+2. Click on "Custom RPC" to add a new network.
+3. Enter the following details:
+   - Network Name: Ganache
+   - New RPC URL: http://127.0.0.1:7545
+   - Chain ID: (leave blank or as default)
+   - Symbol: ETH (or any preferred symbol)
+   - Block Explorer URL: (leave blank or as default)
+4. Click "Save" to add Ganache as a custom network.
+5. MetaMask should now be connected to your local Ganache blockchain at `http://127.0.0.1:7545`.
 
 https://github.com/user-attachments/assets/f62d4c2c-cf97-4cad-a896-ccdc42bf5faf
 
