@@ -56,6 +56,26 @@ const Home: NextPage = () => {
     });
   });
 
+  if (!addressAccount) {
+    return (
+      <VStack
+        minH="100vh"
+        justifyContent="center"
+        alignItems="center"
+        bg="gray.50"
+        p={4}
+        style={{
+          backgroundImage: "url(/background.jpg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <Spinner size="xl" />
+        <Text mt={4}>Waiting for MetaMask login...</Text>
+      </VStack>
+    );
+  }
+
   return (
     <VStack
       minH="100vh"
@@ -85,11 +105,11 @@ const Home: NextPage = () => {
           maxW="xl"
           bg="whiteAlpha.200"
           p={12}
-          borderRadius="2xl"
+          borderRadius="lg"
           boxShadow="md"
         >
           <Heading as="h1" size="xl" mb={4} color="gray.200">
-            TODO APP
+            Blockchain TODO
           </Heading>
           <HStack w="full">
             <Input

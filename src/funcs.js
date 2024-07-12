@@ -30,7 +30,11 @@ const loadContract = async (addressAccount) => {
 };
 
 const loadAccount = async () => {
-    const addressAccount = await web3.eth.getCoinbase();
+    let addressAccount = await web3.eth.getCoinbase();
+    while (!addressAccount) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        addressAccount = await web3.eth.getCoinbase();
+    }
     return addressAccount;
 };
 
@@ -41,17 +45,13 @@ const loadWeb3 = async () => {
         try {
             // Request account access if needed
             await ethereum.enable();
-            // Acccounts now exposed
-            web3.eth.sendTransaction({/* ... */});
         } catch (error) {
-            // User denied account access...
+            console.error("User denied account access");
         }
     }
     // Legacy dapp browsers...
     else if (window.web3) {
         window.web3 = new Web3(web3.currentProvider);
-        // Acccounts always exposed
-        web3.eth.sendTransaction({/* ... */});
     }
     // Non-dapp browsers...
     else {
