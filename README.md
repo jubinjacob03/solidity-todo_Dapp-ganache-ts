@@ -1,4 +1,63 @@
-# Voting App using Blockchain 
+# Todo App Blockchain Project
+
+This project implements a Todo list application using blockchain technology, integrating smart contracts with a frontend built using Next.js and Chakra UI.
+
+## Technologies Used
+
+- **Frontend**:
+  - **Next.js**: React framework for server-rendered React applications.
+  - **Chakra UI**: Component library for React applications with customizable design tokens.
+  - **Framer Motion**: Extensive animation library for React applications.
+
+- **Blockchain Integration**:
+  - **Solidity**: Smart contract language for Ethereum.
+  - **Truffle**: Development framework for Ethereum smart contracts.
+  - **Ganache**: Personal blockchain for Ethereum development.
+  - **Web3.js**: JavaScript library for interacting with the Ethereum blockchain.
+
+## Features
+
+- **Add Task**: Users can add new tasks to their Todo list.
+- **Toggle Completion**: Tasks can be marked as completed or incomplete.
+- **Blockchain Backend**: Tasks are stored on the blockchain using Ethereum smart contracts.
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd <project-directory>
+   ```
+2. Install dependencies
+   ```bash
+   npm install
+   ```
+3. Install and Start Ganache for local blockchain development.
+4. Compile and migrate smart contracts to serve under Ganache
+   ```bash
+   truffle compile
+   truffle migrate --reset --network ganache
+   ```
+5. Start the Next.js server on localhost
+   ```bash
+   npm run dev
+   ```
+
+## Usage
+ - Add new tasks by typing in the input field and clicking the <em><strong>ADD</strong></em> button.
+ - Click <em><strong>DONE</strong></em> or <em><strong>UNDO</strong></em> to toggle task completion status.
+ - Ensure <em><strong>MetaMask (or other Ethereum wallet)</strong></em> is connected to interact with the blockchain features.
+
+https://github.com/user-attachments/assets/f62d4c2c-cf97-4cad-a896-ccdc42bf5faf
+
+## Project Structure
+- **/contracts**: Contains Solidity smart contracts.
+- **/src**: Frontend source code using Next.js and Chakra UI.
+- **truffle-config.js**: Truffle configuration file for Ethereum network setup.
+
+---
+
+# NextJS Doc
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
